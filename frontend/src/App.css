@@ -1,0 +1,288 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for Böttcher Wiki */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.3s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3B82F6;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1E40AF;
+}
+
+/* Category filter buttons */
+.category-button {
+  @apply px-4 py-2 rounded-full transition-all duration-200 transform hover:scale-105;
+}
+
+.category-button.active {
+  @apply bg-blue-600 text-white shadow-lg;
+}
+
+.category-button:not(.active) {
+  @apply bg-gray-200 text-gray-700 hover:bg-gray-300;
+}
+
+/* Knowledge entry cards */
+.knowledge-card {
+  @apply bg-white rounded-lg shadow-md p-6 border-l-4 transition-all duration-200;
+}
+
+.knowledge-card:hover {
+  @apply shadow-lg transform -translate-y-1;
+}
+
+/* Button animations */
+.btn-primary {
+  @apply px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 transform hover:scale-105;
+}
+
+.btn-secondary {
+  @apply px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-all duration-200;
+}
+
+.btn-success {
+  @apply px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all duration-200 transform hover:scale-105 shadow-md;
+}
+
+/* Form styling */
+.form-input {
+  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200;
+}
+
+.form-input:focus {
+  @apply shadow-lg transform translate-y-0;
+}
+
+.form-textarea {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200;
+}
+
+.form-select {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200;
+}
+
+/* Search bar styling */
+.search-container {
+  @apply relative;
+}
+
+.search-input {
+  @apply w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200;
+}
+
+.search-input:focus {
+  @apply shadow-lg;
+}
+
+.search-icon {
+  @apply absolute left-3 top-2.5 text-gray-400;
+}
+
+/* Stats cards */
+.stats-card {
+  @apply bg-white rounded-lg p-6 shadow-md border-l-4 transition-all duration-200;
+}
+
+.stats-card:hover {
+  @apply shadow-lg transform -translate-y-1;
+}
+
+/* Category colors */
+.category-it {
+  @apply bg-blue-100 text-blue-800 border-blue-500;
+}
+
+.category-production {
+  @apply bg-green-100 text-green-800 border-green-500;
+}
+
+.category-quality {
+  @apply bg-purple-100 text-purple-800 border-purple-500;
+}
+
+.category-admin {
+  @apply bg-orange-100 text-orange-800 border-orange-500;
+}
+
+.category-maintenance {
+  @apply bg-red-100 text-red-800 border-red-500;
+}
+
+/* Tag styling */
+.tag {
+  @apply px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full transition-colors duration-200;
+}
+
+.tag:hover {
+  @apply bg-gray-200;
+}
+
+/* Modal styling */
+.modal-backdrop {
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  @apply bg-white rounded-lg shadow-2xl;
+}
+
+/* Loading states */
+.loading-spinner {
+  @apply inline-block w-5 h-5 border-2 border-gray-200 border-t-blue-600 rounded-full animate-spin;
+}
+
+/* Empty state */
+.empty-state {
+  @apply text-center py-16;
+}
+
+.empty-state svg {
+  @apply mx-auto mb-4 text-gray-300;
+}
+
+/* Expand/collapse button */
+.expand-button {
+  @apply text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors duration-200;
+}
+
+.expand-button:hover {
+  @apply underline;
+}
+
+/* Header styling */
+.header-logo {
+  @apply flex items-center space-x-4;
+}
+
+.header-icon {
+  @apply bg-blue-600 text-white p-3 rounded-full shadow-lg;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    @apply px-4;
+  }
+  
+  .knowledge-card {
+    @apply p-4;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .category-buttons {
+    @apply flex-col space-y-2;
+  }
+  
+  .search-flex {
+    @apply flex-col space-y-4;
+  }
+}
+
+@media (max-width: 640px) {
+  .modal-content {
+    @apply mx-4;
+  }
+  
+  .category-buttons {
+    @apply grid grid-cols-2 gap-2;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none;
+  }
+  
+  .knowledge-card {
+    @apply shadow-none border border-gray-300;
+    page-break-inside: avoid;
+  }
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Gradient backgrounds */
+.gradient-bg {
+  background: linear-gradient(135deg, #3B82F6 0%, #6366F1 100%);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #3B82F6, #6366F1);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Focus states */
+.focus-ring {
+  @apply focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+}
+
+/* Hover effects */
+.hover-lift {
+  @apply transition-transform duration-200 hover:transform hover:-translate-y-1;
+}
+
+.hover-scale {
+  @apply transition-transform duration-200 hover:scale-105;
+}
+
+/* Shadow variations */
+.shadow-soft {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-strong {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Custom border styles */
+.border-soft {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.border-strong {
+  border: 2px solid rgba(0, 0, 0, 0.2);
+}
