@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Böttcher_Wiki</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="daten.js"></script>
+  <style>
+    #adminPanel {
+      margin-top: 30px;
+      background: #fff8e1;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    #adminTabelle input {
+      width: 95%;
+      padding: 5px;
+    }
+    #adminTabelle th, #adminTabelle td {
+      padding: 8px;
+      border: 1px solid #ccc;
+    }
+    #adminTabelle {
+      width: 100%;
+      border-collapse: collapse;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="logo.png" alt="Firmenlogo" class="logo" />
+      <h1>Böttcher_Wiki</h1>
+    </header>
+
+    <main>
+      <label for="frage">Frage eingeben:</label>
+      <input type="text" id="frage" placeholder="z. B. SSC, Buchhaltung, Versand" />
+      <button onclick="suche()">Antwort anzeigen</button>
+      <div id="antwort"></div>
+
+      <button id="adminBtn" onclick="adminModus()">🔧 Admin</button>
+      <div id="adminPanel" style="display:none;"></div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Böttcher Fahrräder</p>
+    </footer>
+  </div>
+
+  <script>
+    const fragenAntwortenKey = "fragenAntworten";
+
+    const defaultFragen = [
+      { frage: "urlaub", antwort: "Urlaub bitte über Personio beantragen." },
+      { frage: "krank", antwort: "Bitte Krankmeldung an die Personalabteilung schicken." },
+      { frage: "scanner", antwort: "Sören hat einen kleinen." }
+    ];
+
+    function ladeFragenAntworten() {
+      const gespeicherte = localStorage.getItem(fragenAntwortenKey);
+      return gespeicherte ? JSON.parse(gespeicherte) : defaultFragen;
+    }
+
+    function speichereFragenAntworten(liste) {
+      localStorage.setItem(fragenAntwortenKey, JSON.stringify(liste));
+    }
+
+    function suche() {
+      const eingabe = document.getElementById("frage").value.toLowerCase().trim();
+      const fragenAntworten = ladeFragenAntworten();
+      const ausgabe = document.getElementById("antwort");
+
+      ausgabe.classList.remove("visible");
+
+      setTimeout(() => {
+        const faq = fragenAntworten.find(f => eingabe.includes(f.frage.toLowerCase()));
+
+        if (faq) {
+          ausgabe.innerHTML = `<p>${faq.antwort}</p>`;
+          ausgabe.classList.add("visible");
+          return;
+        }
+
+        if (typeof daten !== "undefined") {
+          const zust = daten.find(d => eingabe.includes(d.rolle.toLowerCase()));
+          if (zust) {
+            ausgabe.innerHTML = `
+              <p><strong>${zust.name}</strong> – Durchwahl: ${zust.durchwahl}</p>
+              <p><a href="mailto:${zust.email}">📧 E-Mail senden</a></p>
+              <p><a href="https://teams.microsoft.com/l/chat/0/0?users=${zust.email}" target="_blank">💬 Teams-Chat starten</a></p>
+            `;
+            ausgabe.classList.add("visible");
+            return;
+          }
+        }
+
+        ausgabe.innerHTML = `<p>❌ Keine passende Antwort gefunden.</p>`;
+        ausgabe.classList.add("visible");
+      }, 50);
+    }
+
+    function adminModus() {
+      const passwort = prompt("🔐 Admin-Passwort:");
+      if (passwort !== "boettcher123") return;
+
+      const panel = document.getElementById("adminPanel");
+      panel.style.display = "block";
+      let fragenAntworten = ladeFragenAntworten();
+
+      panel.innerHTML = `
+        <h3>🔧 Fragen bearbeiten</h3>
+        <table id="adminTabelle">
+          <tr><th>Frage</th><th>Antwort</th><th>Aktion</th></tr>
+        </table>
+        <button onclick="neueZeile()">➕ Neue Frage</button>
+        <button onclick="speichern()">💾 Speichern</button>
+      `;
+
+      const tabelle = document.getElementById("adminTabelle");
+      fragenAntworten.forEach((eintrag) => {
+        const row = tabelle.insertRow();
+        row.innerHTML = `
+          <td><input value="${eintrag.frage}" /></td>
+          <td><input value="${eintrag.antwort}" /></td>
+          <td><button onclick="this.closest('tr').remove()">🗑️</button></td>
+        `;
+      });
+    }
+
+    function neueZeile() {
+      const tabelle = document.getElementById("adminTabelle");
+      const row = tabelle.insertRow();
+      row.innerHTML = `
+        <td><input placeholder="Frage" /></td>
+        <td><input placeholder="Antwort" /></td>
+        <td><button onclick="this.closest('tr').remove()">🗑️</button></td>
+      `;
+    }
+
+    function speichern() {
+      const zeilen = document.querySelectorAll("#adminTabelle tr");
+      const neueListe = [];
+
+      zeilen.forEach((z, index) => {
+        if (index === 0) return;
+        const frage = z.cells[0].querySelector("input").value.trim();
+        const antwort = z.cells[1].querySelector("input").value.trim();
+        if (frage && antwort) {
+          neueListe.push({ frage, antwort });
+        }
+      });
+
+      speichereFragenAntworten(neueListe);
+      alert("💾 Änderungen gespeichert!");
+    }
+  </script>
+</body>
+  <div id="offlineBanner">
+  <img src="neandertaler.gif" alt="Offline-Neandertaler" />
+  <p>Keine Verbindung – Deine Änderungen werden nicht gespeichert.</p>
+</div>
+  <script>
+function checkConnection() {
+  const banner = document.getElementById("offlineBanner");
+
+  <script>
+  // Verbindung prüfen und Banner anzeigen/verstecken
+  function checkConnection() {
+    const banner = document.getElementById("offlineBanner");
+
+    // Funktioniert auch in Safari & Firefox
+    fetch("https://www.google.com/favicon.ico", { method: "HEAD", mode: "no-cors" })
+      .then(() => {
+        banner.style.display = "none";
+      })
+      .catch(() => {
+        banner.style.display = "block";
+      });
+  }
+
+  // Ereignisse beim Laden und bei Verbindungsänderung
+  window.addEventListener("load", checkConnection);
+  window.addEventListener("online", checkConnection);
+  window.addEventListener("offline", checkConnection);
+</script>
+
+<!-- Offline-Banner -->
+<div id="offlineBanner" style="display: none; background-color: #ff4d4d; color: white; padding: 12px; text-align: center; font-weight: bold;">
+  ❌ Keine Verbindung – Deine Änderungen werden nicht gespeichert.
+</div>
+
+</body>
+</html>
