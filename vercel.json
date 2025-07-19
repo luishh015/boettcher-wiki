@@ -21,11 +21,11 @@
     }
   ],
   "env": {
-    "REACT_APP_BACKEND_URL": "@backend-url"
-  },
-  "build": {
-    "env": {
-      "REACT_APP_BACKEND_URL": "@backend-url"
-    }
+  "REACT_APP_BACKEND_URL": "https://dummy.backend/"
+},
+"build": {
+  "env": {
+    "REACT_APP_BACKEND_URL": "https://dummy.backend/"
   }
+}
 }
